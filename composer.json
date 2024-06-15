@@ -1,6 +1,6 @@
 {
-    "name": "astrotomic/laravel-vcard",
-    "description": "A fluent builder class for vCard files.",
+    "name": "econnect/laravel-vcard",
+    "description": "Удобный класс для создания файлов vCard. В этой версии используется стандарт 3-ей версии для совместимости со многими устройствами.",
     "license": "MIT",
     "type": "library",
     "keywords": [
@@ -15,12 +15,18 @@
             "name": "Tom Witkowski",
             "email": "gummibeer@astrotomic.info",
             "homepage": "https://gummibeer.de",
-            "role": "Developer"
+            "role": "Первоначальный разработчик"
+        },
+        {
+            "name": "Даниил Петрянкин",
+            "email": "petryankin@econnect.one",
+            "homepage": "https://dltd.bitrix24.ru/company/personal/user/10/",
+            "role": "Разработчик"
         }
     ],
-    "homepage": "https://github.com/Astrotomic/laravel-vcard",
+    "homepage": "https://github.com/daniilpet/business_card_vcf",
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "astrotomic/php-conditional-proxy": "^0.2.1",
         "illuminate/contracts": "^9.0 || ^10.0 || ^11.0",
         "illuminate/http": "^9.0 || ^10.0 || ^11.0",
@@ -35,12 +41,12 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Astrotomic\\Vcard\\": "src/"
+            "Econnect\\Vcard\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Astrotomic\\Vcard\\Tests\\": "tests/"
+            "Econnect\\Vcard\\Tests\\": "tests/"
         }
     },
     "config": {

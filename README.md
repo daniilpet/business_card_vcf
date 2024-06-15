@@ -1,23 +1,23 @@
 # Laravel vCard ver. 3.0
 
-Удобный класс для создания файлов vCard. В этой версии используется сатнадарт 3-ей версии для совместимости со многими устройствами
+Удобный класс для создания файлов vCard. В этой версии используется стандарт 3-ей версии для совместимости со многими устройствами
 
 ## Установка
 
 Вы можете установить пакет через composer:
 
 ```bash
-composer require astrotomic/laravel-vcard
+composer require econnect/laravel-vcard
 ```
 
 ## Использование
 
 ```php
-use Astrotomic\Vcard\Properties\Email;
-use Astrotomic\Vcard\Properties\Gender;
-use Astrotomic\Vcard\Properties\Kind;
-use Astrotomic\Vcard\Properties\Tel;
-use Astrotomic\Vcard\Vcard;
+use Econnect\Vcard\Properties\Email;
+use Econnect\Vcard\Properties\Gender;
+use Econnect\Vcard\Properties\Kind;
+use Econnect\Vcard\Properties\Tel;
+use Econnect\Vcard\Vcard;
 use Carbon\Carbon;
 
 Vcard::make()

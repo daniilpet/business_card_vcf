@@ -1,6 +1,6 @@
 <?php
 
-namespace Astrotomic\Vcard\Properties;
+namespace Econnect\Vcard\Properties;
 
 class Note extends Property
 {
@@ -10,6 +10,6 @@ class Note extends Property
 
     public function __toString(): string
     {
-        return 'NOTE:'.preg_replace('/[\r\n]+/', '\n', $this->note);
+        return 'NOTE:' . preg_replace('/[\r\n]+/', '\n', $this->note);
     }
 }

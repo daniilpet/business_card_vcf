@@ -1,22 +1,22 @@
 <?php
 
-namespace Astrotomic\Vcard;
+namespace Econnect\Vcard;
 
 use Astrotomic\ConditionalProxy\HasConditionalCalls;
-use Astrotomic\Vcard\Properties\Adr;
-use Astrotomic\Vcard\Properties\Bday;
-use Astrotomic\Vcard\Properties\Email;
-use Astrotomic\Vcard\Properties\Gender;
-use Astrotomic\Vcard\Properties\Kind;
-use Astrotomic\Vcard\Properties\Member;
-use Astrotomic\Vcard\Properties\Note;
-use Astrotomic\Vcard\Properties\Org;
-use Astrotomic\Vcard\Properties\Photo;
-use Astrotomic\Vcard\Properties\Role;
-use Astrotomic\Vcard\Properties\Source;
-use Astrotomic\Vcard\Properties\Tel;
-use Astrotomic\Vcard\Properties\Title;
-use Astrotomic\Vcard\Properties\Url;
+use Econnect\Vcard\Properties\Adr;
+use Econnect\Vcard\Properties\Bday;
+use Econnect\Vcard\Properties\Email;
+use Econnect\Vcard\Properties\Gender;
+use Econnect\Vcard\Properties\Kind;
+use Econnect\Vcard\Properties\Member;
+use Econnect\Vcard\Properties\Note;
+use Econnect\Vcard\Properties\Org;
+use Econnect\Vcard\Properties\Photo;
+use Econnect\Vcard\Properties\Role;
+use Econnect\Vcard\Properties\Source;
+use Econnect\Vcard\Properties\Tel;
+use Econnect\Vcard\Properties\Title;
+use Econnect\Vcard\Properties\Url;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Responsable;
@@ -195,7 +195,7 @@ class Vcard implements Responsable, Stringable
             $this->hasNameParts() ? "N;CHARSET=UTF-8:{$this->lastName};{$this->firstName};{$this->middleName};{$this->namePrefix};{$this->nameSuffix}" : null,
             array_map('strval', $this->properties),
             sprintf('REV:%s', Carbon::now()->toISOString()),
-            'PRODID:-//Astrotomic vCard',
+            'PRODID:-//Econnect vCard',
             'END:VCARD',
         ])->flatten()->filter()->implode(PHP_EOL);
     }
@@ -231,7 +231,7 @@ class Vcard implements Responsable, Stringable
 
     protected function hasNameParts(): bool
     {
-        return ! empty(array_filter([
+        return !empty(array_filter([
             $this->namePrefix,
             $this->firstName,
             $this->middleName,

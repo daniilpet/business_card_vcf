@@ -1,6 +1,6 @@
 <?php
 
-namespace Astrotomic\Vcard\Properties;
+namespace Econnect\Vcard\Properties;
 
 use Illuminate\Support\Str;
 use InvalidArgumentException;
