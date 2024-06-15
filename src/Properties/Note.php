@@ -10,6 +10,6 @@ class Note extends Property
 
     public function __toString(): string
     {
-        return 'NOTE:' . preg_replace('/[\r\n]+/', '\n', $this->note);
+        return 'NOTE;CHARSET=utf-8:' . preg_replace('/[\r\n]+/', '\n', $this->note);
     }
 }

@@ -10,6 +10,6 @@ class Title extends Property
 
     public function __toString(): string
     {
-        return "TITLE:{$this->title}";
+        return "TITLE;CHARSET=utf-8:{$this->title}";
     }
 }

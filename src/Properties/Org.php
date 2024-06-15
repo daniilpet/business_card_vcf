@@ -13,6 +13,6 @@ class Org extends Property
 
     public function __toString(): string
     {
-        return "ORG:{$this->company};{$this->unit};{$this->team}";
+        return "ORG;CHARSET=utf-8:{$this->company};{$this->unit};{$this->team}";
     }
 }

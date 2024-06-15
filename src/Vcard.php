@@ -2,13 +2,16 @@
 
 namespace Econnect\Vcard;
 
+use Stringable;
+use Carbon\Carbon;
+use DateTimeInterface;
 use Astrotomic\ConditionalProxy\HasConditionalCalls;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Econnect\Vcard\Properties\Adr;
 use Econnect\Vcard\Properties\Bday;
 use Econnect\Vcard\Properties\Email;
 use Econnect\Vcard\Properties\Gender;
 use Econnect\Vcard\Properties\Kind;
-use Econnect\Vcard\Properties\Member;
 use Econnect\Vcard\Properties\Note;
 use Econnect\Vcard\Properties\Org;
 use Econnect\Vcard\Properties\Photo;
@@ -17,13 +20,11 @@ use Econnect\Vcard\Properties\Source;
 use Econnect\Vcard\Properties\Tel;
 use Econnect\Vcard\Properties\Title;
 use Econnect\Vcard\Properties\Url;
-use Carbon\Carbon;
-use DateTimeInterface;
+use Econnect\Vcard\Properties\Prod;
+use Econnect\Vcard\Properties\SocialNetwork;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
-use Stringable;
-use Symfony\Component\HttpFoundation\HeaderUtils;
 
 class Vcard implements Responsable, Stringable
 {
@@ -48,6 +49,12 @@ class Vcard implements Responsable, Stringable
         return new static();
     }
 
+    /**
+     * Полное имя
+     *
+     * @param string|null $fullName
+     * @return self
+     */
     public function fullName(?string $fullName): self
     {
         $this->fullName = $fullName;
@@ -55,6 +62,16 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Имя
+     *
+     * @param string|null $lastName Фамилия
+     * @param string|null $firstName Имя
+     * @param string|null $middleName Отчество
+     * @param string|null $prefix Префикс
+     * @param string|null $suffix Суффикс
+     * @return self
+     */
     public function name(
         ?string $lastName = null,
         ?string $firstName = null,
@@ -71,6 +88,13 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Почта
+     *
+     * @param string $email Почта (значение)
+     * @param array $types Тип почты (массив констант Econnect\Vcard\Properties\Email)
+     * @return self
+     */
     public function email(string $email, array $types = [Email::INTERNET]): self
     {
         $this->properties[] = new Email($email, $types);
@@ -78,6 +102,13 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Телефон
+     *
+     * @param string $number Номер телефона
+     * @param array $types Тип телефона (массив констант Econnect\Vcard\Properties\Tel)
+     * @return self
+     */
     public function tel(string $number, array $types = [Tel::VOICE]): self
     {
         $this->properties[] = new Tel($number, $types);
@@ -85,6 +116,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Веб-сайт
+     *
+     * @param string $url ссылка
+     * @return self
+     */
     public function url(string $url): self
     {
         $this->properties[] = new Url($url);
@@ -92,6 +129,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Фотография пользователя
+     *
+     * @param string $photo Строковый эквивалент изображения
+     * @return self
+     */
     public function photo(string $photo): self
     {
         $this->properties[] = new Photo($photo);
@@ -99,6 +142,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Дата рождения
+     *
+     * @param DateTimeInterface $bday
+     * @return self
+     */
     public function bday(DateTimeInterface $bday): self
     {
         $this->properties[] = new Bday($bday);
@@ -106,6 +155,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Категория контакта
+     *
+     * @param string $kind Группа (константа Econnect\Vcard\Properties\Kind)
+     * @return self
+     */
     public function kind(string $kind): self
     {
         $this->properties[] = new Kind($kind);
@@ -113,6 +168,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Гендер
+     *
+     * @param string $gender (константа Econnect\Vcard\Properties\Gender)
+     * @return self
+     */
     public function gender(string $gender): self
     {
         $this->properties[] = new Gender($gender);
@@ -120,6 +181,14 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Организация
+     *
+     * @param string|null $company наименование
+     * @param string|null $unit отдел (департамент)
+     * @param string|null $team наименование команды
+     * @return self
+     */
     public function org(?string $company = null, ?string $unit = null, ?string $team = null): self
     {
         $this->properties[] = new Org($company, $unit, $team);
@@ -127,6 +196,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Официальное название должности или звания человека 
+     *
+     * @param string $title
+     * @return self
+     */
     public function title(string $title): self
     {
         $this->properties[] = new Title($title);
@@ -134,6 +209,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Роль или функция человека в организации
+     *
+     * @param string $role
+     * @return self
+     */
     public function role(string $role): self
     {
         $this->properties[] = new Role($role);
@@ -141,13 +222,19 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
-    public function member(?string $mail = null, ?string $uuid = null): self
-    {
-        $this->properties[] = new Member($mail, $uuid);
-
-        return $this;
-    }
-
+    /**
+     * Адрес
+     *
+     * @param string|null $poBox Почтовый ящик
+     * @param string|null $extendedAddress Дополнительный адрес (например, квартира, блок)
+     * @param string|null $streetAddress Улица и номер дома
+     * @param string|null $locality Город или населённый пункт
+     * @param string|null $region Регион, область или штат
+     * @param string|null $postalCode Почтовый индекс
+     * @param string|null $countryName Название страны
+     * @param array $types Типы адреса (константа Econnect\Vcard\Properties\Adr)
+     * @return self
+     */
     public function adr(
         ?string $poBox = null,
         ?string $extendedAddress = null,
@@ -172,6 +259,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Заметка
+     *
+     * @param string $note
+     * @return self
+     */
     public function note(string $note): self
     {
         $this->properties[] = new Note($note);
@@ -179,6 +272,12 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Источник
+     *
+     * @param string $source
+     * @return self
+     */
     public function source(string $source): self
     {
         $this->properties[] = new Source($source);
@@ -186,20 +285,57 @@ class Vcard implements Responsable, Stringable
         return $this;
     }
 
+    /**
+     * Социальная сеть (для iOS)
+     *
+     * @param string $type Текст на кнопке
+     * @param string $url Ссылка
+     * @return self
+     */
+    public function socialNetwork(string $type, string $url): self
+    {
+        $this->properties[] = new SocialNetwork($type, $url);
+
+        return $this;
+    }
+
+    /**
+     * Продукт, выпустивший vCard
+     *
+     * @param string $prod
+     * @return self
+     */
+    public function prod(string $prod): self
+    {
+        $this->properties[] = new Prod($prod);
+
+        return $this;
+    }
+
+    /**
+     * Сформированный vCard
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return collect([
             'BEGIN:VCARD',
-            'VERSION:4.0',
+            'VERSION:3.0',
             "FN;CHARSET=UTF-8:{$this->getFullName()}",
             $this->hasNameParts() ? "N;CHARSET=UTF-8:{$this->lastName};{$this->firstName};{$this->middleName};{$this->namePrefix};{$this->nameSuffix}" : null,
             array_map('strval', $this->properties),
             sprintf('REV:%s', Carbon::now()->toISOString()),
-            'PRODID:-//Econnect vCard',
             'END:VCARD',
         ])->flatten()->filter()->implode(PHP_EOL);
     }
 
+    /**
+     * Отправка контакта через протокол HTTP
+     *
+     * @param Request $request
+     * @return void
+     */
     public function toResponse($request)
     {
         $content = strval($this);
@@ -208,7 +344,7 @@ class Vcard implements Responsable, Stringable
 
         return new Response($content, 200, [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Content-Type' => 'text/vcard',
+            'Content-Type' => 'text/vcard; charset=utf-8',
             'Content-Length' => strlen($content),
             'Content-Disposition' => HeaderUtils::makeDisposition(
                 HeaderUtils::DISPOSITION_ATTACHMENT,
@@ -218,6 +354,11 @@ class Vcard implements Responsable, Stringable
         ]);
     }
 
+    /**
+     * Получить полное имя
+     *
+     * @return string
+     */
     protected function getFullName(): string
     {
         return $this->fullName ?? collect([
@@ -229,6 +370,11 @@ class Vcard implements Responsable, Stringable
         ])->filter()->implode(' ');
     }
 
+    /**
+     * Получить частичное имя (по заполненным полям)
+     *
+     * @return boolean
+     */
     protected function hasNameParts(): bool
     {
         return !empty(array_filter([
