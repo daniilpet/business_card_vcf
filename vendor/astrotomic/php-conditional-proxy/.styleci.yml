@@ -1,7 +1,0 @@
-preset: laravel
-
-risky: true
-
-finder:
-  exclude:
-    - "tests"
