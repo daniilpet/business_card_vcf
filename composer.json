@@ -1,0 +1,52 @@
+{
+    "name": "astrotomic/laravel-vcard",
+    "description": "A fluent builder class for vCard files.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "vcard",
+        "vcf",
+        "contact",
+        "contacts"
+    ],
+    "authors": [
+        {
+            "name": "Tom Witkowski",
+            "email": "gummibeer@astrotomic.info",
+            "homepage": "https://gummibeer.de",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/Astrotomic/laravel-vcard",
+    "require": {
+        "php": "^8.1",
+        "astrotomic/php-conditional-proxy": "^0.2.1",
+        "illuminate/contracts": "^9.0 || ^10.0 || ^11.0",
+        "illuminate/http": "^9.0 || ^10.0 || ^11.0",
+        "illuminate/support": "^9.0 || ^10.0 || ^11.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "orchestra/testbench": "^7.0 || ^8.0 || ^9.0",
+        "phpunit/phpunit": "^9.3 || ^10.0",
+        "spatie/phpunit-snapshot-assertions": "^4.2 || ^5.1"
+    },
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Astrotomic\\Vcard\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Astrotomic\\Vcard\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "fix": "@php vendor/bin/pint"
+    }
+}
