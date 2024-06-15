@@ -1,5 +1,5 @@
 {
-    "name": "econnect/laravel-vcard",
+    "name": "econnect/vcard",
     "description": "Удобный класс для создания файлов vCard. В этой версии используется стандарт 3-ей версии для совместимости со многими устройствами.",
     "license": "MIT",
     "type": "library",
